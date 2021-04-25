@@ -18,6 +18,7 @@ const fetchCountriesByRegion = async (params: Params) => {
   const { queryKey } = params;
   let region = queryKey[1];
 
+  //TODO: enhance
   const regionsUrl = `https://restcountries.eu/rest/v2/region/${region}`;
   const allCountriesUrl = "https://restcountries.eu/rest/v2/all";
 
@@ -28,6 +29,7 @@ const fetchCountriesByRegion = async (params: Params) => {
 function Filter({ options, setCountries }: SearchInputProps) {
   const [selected, setSelected] = useState<RegionsOptions | null>(null);
 
+  //TODO: Send this logic to the parent
   const { isLoading, data } = useQuery<Country[]>(
     ["countriesByRegion", selected],
     fetchCountriesByRegion,
