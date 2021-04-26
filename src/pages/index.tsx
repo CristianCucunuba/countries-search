@@ -5,6 +5,7 @@ import SearchInput from "@components/SearchInput";
 import { useState, useEffect } from "react";
 import { useQuery } from "react-query";
 import { Country, regions } from "src/types";
+import Link from "next/link";
 
 export default function Home() {
   const [countries, setCountries] = useState<Country[]>([]);
@@ -72,9 +73,13 @@ export default function Home() {
             ? "Loading..."
             : countries.map((country) => {
                 return (
-                  <div className="flex flex-col items-center mt-4">
-                    <CountryCard country={country} />
-                  </div>
+                  <Link
+                    href={`/${encodeURIComponent(country.name.toLowerCase())}`}
+                    key={country.name}>
+                    <div className="flex flex-col items-center mt-4">
+                      <CountryCard country={country} />
+                    </div>
+                  </Link>
                 );
               })}
         </div>
