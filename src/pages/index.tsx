@@ -9,6 +9,7 @@ import { Country, regions } from "src/types";
 export default function Home() {
   const [countries, setCountries] = useState<Country[]>([]);
   const [query, setQuery] = useState("");
+  const [region, setRegion] = useState("");
 
   const { isLoading, data } = useQuery<Country[], Error>(query, async () => {
     const url = `https://restcountries.eu/rest/v2/${
@@ -22,8 +23,28 @@ export default function Home() {
     return response.json();
   });
 
+  const { isLoading: isLoadingRegion, data: countriesByRegion } = useQuery<
+    Country[]
+  >(
+    [region],
+    async () => {
+      const url = `https://restcountries.eu/rest/v2/${
+        region ? `region/${region}` : "all"
+      }`;
+
+      const response = await fetch(url);
+      return response.json();
+    },
+    { enabled: !!region }
+  );
+
   useEffect(() => {
-    //TODO: this is not overriding the data of the select filter
+    if (!isLoadingRegion && countriesByRegion) {
+      setCountries(countriesByRegion);
+    }
+  }, [countriesByRegion]);
+
+  useEffect(() => {
     if (!isLoading && data) {
       setCountries(data);
     }
@@ -41,7 +62,11 @@ export default function Home() {
           placeholder="Search for a country..."
           timeout={600}
         />
-        <Filter options={regions} setCountries={setCountries} />
+        <Filter
+          options={regions}
+          onChange={(option) => setRegion(option)}
+          value={region}
+        />
         <div className="mb-8">
           {isLoading
             ? "Loading..."

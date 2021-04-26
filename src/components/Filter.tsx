@@ -1,58 +1,24 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronDownIcon } from "@heroicons/react/solid";
-import { QueryKey, useQuery } from "react-query";
-import { Country, RegionsOptions } from "src/types";
+import { RegionsOptions } from "src/types";
 
 interface SearchInputProps {
   options: RegionsOptions;
-  // is this good typing?
-  setCountries: Dispatch<SetStateAction<Country[]>>;
+  value: string;
+  onChange: (value: string) => void;
 }
 
-type Params = {
-  queryKey: QueryKey;
-};
-
-const fetchCountriesByRegion = async (params: Params) => {
-  const { queryKey } = params;
-  let region = queryKey[1];
-
-  //TODO: enhance
-  const regionsUrl = `https://restcountries.eu/rest/v2/region/${region}`;
-  const allCountriesUrl = "https://restcountries.eu/rest/v2/all";
-
-  const response = await fetch(region === "all" ? allCountriesUrl : regionsUrl);
-  return response.json();
-};
-
-function Filter({ options, setCountries }: SearchInputProps) {
-  const [selected, setSelected] = useState<RegionsOptions | null>(null);
-
-  //TODO: Send this logic to the parent
-  const { isLoading, data } = useQuery<Country[]>(
-    ["countriesByRegion", selected],
-    fetchCountriesByRegion,
-    { enabled: !!selected }
-  );
-
-  if (!isLoading && data) {
-    setCountries(data);
-  }
-
+function Filter({ options, onChange, value = "" }: SearchInputProps) {
   return (
     <div className="w-3/5 mt-8">
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={value} onChange={onChange}>
         {({ open }) => (
           <>
             <div className="relative mt-1">
               <Listbox.Button className="relative w-full py-3 pl-8 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
                 <span className="block capitalize truncate">
-                  {selected
-                    ? selected === "all"
-                      ? "Mr. Worlwide"
-                      : selected
-                    : "Filter by Region"}
+                  {value || "Mr. Worlwide"}
                 </span>
                 <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                   <ChevronDownIcon className="w-5 h-5" aria-hidden="true" />
@@ -85,7 +51,7 @@ function Filter({ options, setCountries }: SearchInputProps) {
                             className={`${
                               selected ? "font-medium" : "font-normal"
                             } block truncate`}>
-                            {option === "all" ? "Mr. Worlwide" : option}
+                            {option || "Mr. Worlwide"}
                           </span>
                           {selected ? (
                             <span
