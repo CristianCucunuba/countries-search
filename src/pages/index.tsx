@@ -3,41 +3,25 @@ import Filter from "@components/Filter";
 import Header from "@components/Header";
 import SearchInput from "@components/SearchInput";
 import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 import { Country, regions } from "src/types";
 import Link from "next/link";
+import { dehydrate } from "react-query/hydration";
+import { getCountriesByRegion, searchCountry } from "src/util/api";
 
 export default function Home() {
-  const [countries, setCountries] = useState<Country[]>([]);
+  const [countries, setCountries] = useState<Country[] | null>(null);
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState("");
 
-  const { isLoading, data } = useQuery<Country[], Error>(query, async () => {
-    const url = `https://restcountries.eu/rest/v2/${
-      query ? `name/${query}` : "all"
-    }`;
-    const response = await fetch(url);
-    // TODO: Handle 404 searches
-    if (!response.ok) {
-      throw new Error("Api error");
-    }
-    return response.json();
-  });
+  const { isLoading, data } = useQuery<Country[], Error>("searchCountry", () =>
+    searchCountry(query)
+  );
 
   const { isLoading: isLoadingRegion, data: countriesByRegion } = useQuery<
-    Country[]
-  >(
-    [region],
-    async () => {
-      const url = `https://restcountries.eu/rest/v2/${
-        region ? `region/${region}` : "all"
-      }`;
-
-      const response = await fetch(url);
-      return response.json();
-    },
-    { enabled: !!region }
-  );
+    Country[],
+    Error
+  >("search", () => getCountriesByRegion(region), { enabled: !!region });
 
   useEffect(() => {
     if (!isLoadingRegion && countriesByRegion) {
@@ -50,6 +34,8 @@ export default function Home() {
       setCountries(data);
     }
   }, [data]);
+
+  const loading = isLoadingRegion || isLoading;
 
   return (
     <div>
@@ -69,9 +55,9 @@ export default function Home() {
           value={region}
         />
         <div className="mb-8">
-          {isLoading
+          {loading
             ? "Loading..."
-            : countries.map((country) => {
+            : (countries || data)?.map((country) => {
                 return (
                   <Link
                     href={`/${encodeURIComponent(country.name.toLowerCase())}`}
@@ -87,3 +73,14 @@ export default function Home() {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery("searchCountry", () => searchCountry(""));
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};

@@ -1,7 +1,9 @@
+import Link from "next/link";
 import Header from "@components/Header";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import type { Country } from "src/types";
 import { GetStaticProps, GetStaticPaths } from "next";
+import { useRouter } from "next/router";
 
 interface CountryProps {
   country: Country;
@@ -22,6 +24,7 @@ function SubHeading({
 }
 
 function CountryPage({ country }: CountryProps) {
+  const router = useRouter();
   const {
     flag,
     name,
@@ -33,25 +36,24 @@ function CountryPage({ country }: CountryProps) {
     topLevelDomain,
     currencies = [],
     languages = [],
+    borders = [],
   } = country;
 
   const formattedCurrencies = currencies.map((curr) => curr.name).join(", ");
   const formattedLanguages = languages.map((curr) => curr.name).join(", ");
 
   return (
-    <div>
+    <>
       <Header isDark={true} />
-      <div className="px-4 mt-8">
-        <button className="flex items-center px-6 py-2 bg-white rounded-sm shadow-md">
+      <div className="px-4 my-8">
+        <button
+          className="flex items-center px-6 py-2 bg-white rounded-sm shadow-md"
+          onClick={() => router.back()}>
           <ArrowLeftIcon className="w-5 h-5 mr-2" />{" "}
           <span className="font-medium">Back</span>
         </button>
         <div className="mt-10">
-          <img
-            src={flag}
-            alt="country image"
-            className="border border-red-500 h-60"
-          />
+          <img src={flag} alt={`Flaf of ${name}`} className="h-60" />
           <div>
             <h1 className="mt-8 mb-4 text-2xl font-bold">{name}</h1>
             <div>
@@ -76,14 +78,22 @@ function CountryPage({ country }: CountryProps) {
             </div>
             <div>
               <h3 className="mt-8 mb-4 font-semibold">Border countries:</h3>
-              <button className="px-8 py-2 bg-white rounded-md shadow-md">
-                France
-              </button>
+              <div className="flex flex-wrap">
+                {borders.map((border) => (
+                  <Link
+                    href={`/${encodeURIComponent(border.name.toLowerCase())}`}
+                    key={border.name}>
+                    <button className="px-8 py-2 mb-4 mr-4 bg-white rounded-md shadow-md">
+                      {border.name}
+                    </button>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -107,11 +117,27 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       country
     )}?fullText=true`
   );
-  const data = await res.json();
+  const countryData = await res.json();
+  const borders = countryData[0].borders;
+  let borderCountriesNames: any = [];
+  if (borders.length) {
+    const requestBorders = await fetch(
+      `https://restcountries.eu/rest/v2/alpha?codes=${borders.join(
+        ";"
+      )}&fields=name`
+    );
+    borderCountriesNames = await requestBorders.json();
+  }
 
+  console.log(borderCountriesNames);
+
+  // Does the request with fetch need error handling?
   return {
     props: {
-      country: data[0],
+      country: {
+        ...countryData[0],
+        borders: borderCountriesNames,
+      },
     },
   };
 };

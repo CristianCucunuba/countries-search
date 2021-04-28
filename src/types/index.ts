@@ -24,7 +24,9 @@ export type Country = {
   languages: {
     name: string;
   }[];
-  borders: string[];
+  borders: {
+    name: string;
+  }[];
 };
 
 export type RegionsOptions = typeof regions;
