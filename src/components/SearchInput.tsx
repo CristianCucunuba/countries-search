@@ -1,7 +1,5 @@
-import { SearchIcon } from "@heroicons/react/outline";
 import React, { useState, useEffect } from "react";
-import useDebounceValue from "src/hooks/useDebounceValue";
-import { useQuery } from "react-query";
+import { SearchIcon } from "@heroicons/react/outline";
 
 interface SearchInputProps
   extends Omit<React.HTMLProps<HTMLInputElement>, "value" | "onChange"> {
@@ -24,8 +22,8 @@ function SearchInput({
   }, [searchQuery, timeout, onChange]);
 
   return (
-    <div className="flex items-center px-4 py-2 mt-6 bg-white rounded-md shadow-md">
-      <SearchIcon className="w-8 h-8 mr-4" />
+    <div className="flex items-center w-full py-1 pl-5 bg-white rounded-md shadow-md md:w-96">
+      <SearchIcon className="w-6 h-6 mr-4" />
       <input onChange={(e) => setSearchQuery(e.target.value)} {...props} />
     </div>
   );

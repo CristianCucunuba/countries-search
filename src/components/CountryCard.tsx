@@ -6,7 +6,7 @@ interface CountryCardProps {
 
 function CountryCard({ country }: CountryCardProps) {
   return (
-    <div className="w-4/5 mt-4 overflow-hidden rounded-md shadow-md cursor-pointer">
+    <div className="w-4/5 mt-4 overflow-hidden rounded-md shadow-md cursor-pointer sm:w-11/12">
       <img className="w-full h-44" src={country.flag} alt="" />
       <div className="px-4 py-8 bg-white">
         <p className="mb-4 text-lg font-bold">{country.name}</p>
