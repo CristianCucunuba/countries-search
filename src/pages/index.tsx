@@ -14,14 +14,17 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState("");
 
-  const { isLoading, data } = useQuery<Country[], Error>("searchCountry", () =>
-    searchCountry(query)
+  const { isLoading, data } = useQuery<Country[], Error>(
+    ["searchCountry", query],
+    () => searchCountry(query)
   );
 
   const { isLoading: isLoadingRegion, data: countriesByRegion } = useQuery<
     Country[],
     Error
-  >("search", () => getCountriesByRegion(region), { enabled: !!region });
+  >(["region", region], () => getCountriesByRegion(region), {
+    enabled: !!region,
+  });
 
   useEffect(() => {
     if (!isLoadingRegion && countriesByRegion) {
@@ -76,7 +79,9 @@ export default function Home() {
 
 export const getStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery("searchCountry", () => searchCountry(""));
+  await queryClient.prefetchQuery(["searchCountry", ""], () =>
+    searchCountry("")
+  );
 
   return {
     props: {
