@@ -5,6 +5,7 @@ import { dehydrate } from "react-query/hydration";
 import CountryCard from "@components/CountryCard";
 import Filter from "@components/Filter";
 import Header from "@components/Header";
+import Skeleton from "@components/Skeleton";
 import SearchInput from "@components/SearchInput";
 import { Country, regions } from "src/types";
 import { getCountriesByRegion, searchCountry } from "src/util/api";
@@ -63,7 +64,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 gap-5 mt-4 mb-8 lg:mt-12 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-cols-min">
           {loading
-            ? "Loading..."
+            ? Array.from(Array(9).keys()).map(() => <Skeleton />)
             : (countries || data)?.map((country) => {
                 return (
                   <Link
