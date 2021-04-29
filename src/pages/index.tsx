@@ -62,7 +62,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-5 mt-4 mb-8 lg:mt-12 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-cols-min">
+        <div className="grid grid-cols-1 gap-5 mt-4 mb-8 lg:mt-12 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-cols-min justify-items-center">
           {loading
             ? Array.from(Array(9).keys()).map(() => <Skeleton />)
             : (countries || data)?.map((country) => {
@@ -70,9 +70,7 @@ export default function Home() {
                   <Link
                     href={`/${encodeURIComponent(country.name.toLowerCase())}`}
                     key={country.name}>
-                    <div className="flex flex-col items-center mt-4">
-                      <CountryCard country={country} />
-                    </div>
+                    <CountryCard country={country} />
                   </Link>
                 );
               })}
