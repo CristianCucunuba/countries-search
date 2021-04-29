@@ -2,8 +2,9 @@ import { useRef } from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { Hydrate } from "react-query/hydration";
 import { ReactQueryDevtools } from "react-query/devtools";
-import "../styles/styles.css";
+import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
+import "../styles/styles.css";
 
 function App({ Component, pageProps }: AppProps) {
   const queryClientRef = useRef<QueryClient>();
@@ -14,7 +15,9 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
-        <Component {...pageProps} />
+        <ThemeProvider attribute="class">
+          <Component {...pageProps} />
+        </ThemeProvider>
       </Hydrate>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

@@ -42,14 +42,14 @@ export default function Home() {
 
   return (
     <div>
-      <Header isDark={false} />
+      <Header />
       <div className="container px-4 mx-auto mt-10 mb-4 md:px-0">
         <div className="flex flex-col justify-between lg:flex-row">
           <SearchInput
             onChange={(value) => setQuery(value)}
             value={query}
             type="text"
-            className="w-full h-10"
+            className="w-full h-10 dark:bg-dark-bg"
             placeholder="Search for a country..."
             timeout={600}
           />

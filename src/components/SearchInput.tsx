@@ -22,7 +22,7 @@ function SearchInput({
   }, [searchQuery, timeout, onChange]);
 
   return (
-    <div className="flex items-center w-full py-1 pl-5 bg-white rounded-md shadow-md md:w-96">
+    <div className="flex items-center w-full py-1 pl-5 pr-3 bg-white rounded-md shadow-md md:w-96 dark:bg-dark-bg">
       <SearchIcon className="w-6 h-6 mr-4" />
       <input onChange={(e) => setSearchQuery(e.target.value)} {...props} />
     </div>

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Header from "@components/Header";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
-import type { Country } from "src/types";
 import { GetStaticProps, GetStaticPaths } from "next";
 import { useRouter } from "next/router";
+import { ArrowLeftIcon } from "@heroicons/react/solid";
+import type { Country } from "src/types";
 
 interface CountryProps {
   country: Country;
@@ -44,10 +44,10 @@ function CountryPage({ country }: CountryProps) {
 
   return (
     <>
-      <Header isDark={true} />
+      <Header />
       <div className="container px-4 mx-auto my-8">
         <button
-          className="flex items-center px-6 py-2 bg-white rounded-sm shadow-md"
+          className="flex items-center px-6 py-2 bg-white rounded-sm shadow-md dark:bg-dark-bg"
           onClick={() => router.back()}>
           <ArrowLeftIcon className="w-5 h-5 mr-2" />{" "}
           <span className="font-medium">Back</span>
@@ -60,7 +60,7 @@ function CountryPage({ country }: CountryProps) {
           />
           <div>
             <h1 className="mt-8 mb-4 text-2xl font-bold lg:mt-0">{name}</h1>
-            <div className="max-w-sm md:flex md:justify-between">
+            <div className="max-w-md md:flex md:justify-between">
               <div>
                 <SubHeading title="Native name" value={nativeName} />
                 <SubHeading
@@ -92,7 +92,7 @@ function CountryPage({ country }: CountryProps) {
                   <Link
                     href={`/${encodeURIComponent(border.name.toLowerCase())}`}
                     key={border.name}>
-                    <button className="px-8 py-2 mb-4 mr-4 bg-white rounded-md shadow-md">
+                    <button className="px-8 py-2 mb-4 mr-4 bg-white rounded-md shadow-md dark:bg-dark-bg">
                       {border.name}
                     </button>
                   </Link>
@@ -137,8 +137,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     );
     borderCountriesNames = await requestBorders.json();
   }
-
-  console.log(borderCountriesNames);
 
   // Does the request with fetch need error handling?
   return {
