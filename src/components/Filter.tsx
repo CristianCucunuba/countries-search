@@ -14,7 +14,7 @@ function Filter({ options, onChange, value = "" }: SearchInputProps) {
     <Listbox value={value} onChange={onChange}>
       {({ open }) => (
         <div>
-          <div className="relative mt-1">
+          <div className="relative z-10 mt-1">
             <Listbox.Button className="relative w-full py-3 pl-8 pr-10 text-left bg-white rounded-md shadow-md cursor-pointer dark:bg-dark-bg focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
               <span className="block capitalize truncate">
                 {value || "Mr. Worlwide"}

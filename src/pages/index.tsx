@@ -49,7 +49,7 @@ export default function Home() {
             onChange={(value) => setQuery(value)}
             value={query}
             type="text"
-            className="w-full h-10 dark:bg-dark-bg"
+            className="w-full h-10 dark:bg-dark-bg focus:outline-none"
             placeholder="Search for a country..."
             timeout={600}
           />
@@ -61,7 +61,7 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-5 mb-8 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-cols-min">
+        <div className="grid grid-cols-1 gap-5 mt-4 mb-8 lg:mt-12 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-cols-min">
           {loading
             ? "Loading..."
             : (countries || data)?.map((country) => {

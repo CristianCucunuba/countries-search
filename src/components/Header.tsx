@@ -7,7 +7,7 @@ const Header = () => {
   const isDark = theme === "dark";
 
   return (
-    <header className="w-full h-20 bg-white shadow-md dark:bg-dark-bg">
+    <header className="sticky top-0 z-10 w-full h-20 bg-white shadow-md dark:bg-dark-bg">
       <div className="container flex items-center justify-between h-full px-4 mx-auto">
         <Link href="/">
           <h1 className="text-lg font-bold cursor-pointer">
@@ -15,7 +15,7 @@ const Header = () => {
           </h1>
         </Link>
         <button
-          className="flex"
+          className="flex focus:outline-none"
           onClick={() => setTheme(isDark ? "light" : "dark")}>
           {theme == "dark" ? (
             <SunIcon className="w-6 h-6" />
