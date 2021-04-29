@@ -1,12 +1,12 @@
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { QueryClient, useQuery } from "react-query";
+import { dehydrate } from "react-query/hydration";
 import CountryCard from "@components/CountryCard";
 import Filter from "@components/Filter";
 import Header from "@components/Header";
 import SearchInput from "@components/SearchInput";
-import { useState, useEffect } from "react";
-import { QueryClient, useQuery } from "react-query";
 import { Country, regions } from "src/types";
-import Link from "next/link";
-import { dehydrate } from "react-query/hydration";
 import { getCountriesByRegion, searchCountry } from "src/util/api";
 
 export default function Home() {
