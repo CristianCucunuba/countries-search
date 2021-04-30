@@ -16,6 +16,7 @@ const Header = () => {
         </Link>
         <button
           type="button"
+          aria-label={`${isDark ? "light" : "dark"} theme`}
           className="flex focus:outline-none"
           onClick={() => setTheme(isDark ? "light" : "dark")}>
           {theme == "dark" ? (
