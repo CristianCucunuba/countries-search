@@ -15,6 +15,7 @@ const Header = () => {
           </h1>
         </Link>
         <button
+          type="button"
           className="flex focus:outline-none"
           onClick={() => setTheme(isDark ? "light" : "dark")}>
           {theme == "dark" ? (

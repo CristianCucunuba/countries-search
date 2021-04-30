@@ -83,6 +83,7 @@ export default function Home() {
         </div>
         {pagination <= listOfCountries?.length ? (
           <button
+            type="button"
             className="block px-4 py-2 mx-auto mb-10 text-white text-gray-800 bg-gray-800 rounded-md dark:bg-white"
             onClick={() => setPagination((pagination) => pagination + 12)}>
             Load More

@@ -47,6 +47,7 @@ function CountryPage({ country }: CountryProps) {
       <Header />
       <div className="container px-4 mx-auto my-8">
         <button
+          type="button"
           className="flex items-center px-6 py-2 bg-white rounded-sm shadow-md dark:bg-dark-bg"
           onClick={() => router.back()}>
           <ArrowLeftIcon className="w-5 h-5 mr-2" />{" "}
@@ -92,7 +93,9 @@ function CountryPage({ country }: CountryProps) {
                   <Link
                     href={`/${encodeURIComponent(border.name.toLowerCase())}`}
                     key={border.name}>
-                    <button className="px-8 py-2 mb-4 mr-4 bg-white rounded-md shadow-md dark:bg-dark-bg">
+                    <button
+                      type="button"
+                      className="px-8 py-2 mb-4 mr-4 bg-white rounded-md shadow-md dark:bg-dark-bg">
                       {border.name}
                     </button>
                   </Link>
