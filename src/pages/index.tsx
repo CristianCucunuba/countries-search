@@ -17,6 +17,7 @@ export default function Home() {
   const [countries, setCountries] = useState<Country[] | null>(null);
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState("");
+  const [isMounted, setIsMounted] = useState(false);
   const [pagination, setPagination] = useState(MINIMUM_PAGINATION);
 
   const { isLoading, data } = useQuery<Country[], Error>(
@@ -28,6 +29,10 @@ export default function Home() {
     Country[],
     Error
   >(["region", region], () => getCountriesByRegion(region));
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isLoadingRegion && countriesByRegion) {
@@ -43,7 +48,7 @@ export default function Home() {
     }
   }, [data]);
 
-  const loading = isLoadingRegion || isLoading;
+  const loading = (isLoadingRegion || isLoading) && isMounted;
   const listOfCountries = countries || data || [];
 
   return (

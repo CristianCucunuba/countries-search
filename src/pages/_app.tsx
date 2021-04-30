@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { Hydrate } from "react-query/hydration";
-import { ReactQueryDevtools } from "react-query/devtools";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import "../styles/styles.css";
@@ -19,7 +18,6 @@ function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </ThemeProvider>
       </Hydrate>
-      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }
