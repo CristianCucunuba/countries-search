@@ -23,11 +23,10 @@ export default function Home() {
   const { isLoading: isLoadingRegion, data: countriesByRegion } = useQuery<
     Country[],
     Error
-  >(["region", region], () => getCountriesByRegion(region), {
-    enabled: !!region,
-  });
+  >(["region", region], () => getCountriesByRegion(region));
 
   useEffect(() => {
+    console.log({ countriesByRegion });
     if (!isLoadingRegion && countriesByRegion) {
       setCountries(countriesByRegion);
     }
@@ -64,7 +63,7 @@ export default function Home() {
         </div>
         <div className="grid grid-cols-1 gap-5 mt-4 mb-8 lg:mt-12 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-cols-min justify-items-center">
           {loading
-            ? Array.from(Array(9).keys()).map(() => <Skeleton />)
+            ? Array.from(Array(9).keys()).map((key) => <Skeleton key={key} />)
             : (countries || data)?.map((country) => {
                 return (
                   <Link
