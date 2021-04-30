@@ -12,7 +12,7 @@ function CountryCard({ country }: CountryCardProps) {
       <div className="relative h-52">
         <Image src={flag} alt={`Flag of ${name}`} layout="fill" />
       </div>
-      <div className="px-4 py-8 bg-white dark:bg-dark-bg">
+      <div className="h-full px-4 py-8 bg-white dark:bg-dark-bg">
         <p className="mb-4 text-lg font-bold">{name}</p>
         <p className="font-medium">
           Population:{" "}

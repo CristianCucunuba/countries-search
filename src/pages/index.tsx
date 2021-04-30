@@ -70,7 +70,9 @@ export default function Home() {
                   <Link
                     href={`/${encodeURIComponent(country.name.toLowerCase())}`}
                     key={country.name}>
-                    <CountryCard country={country} />
+                    <div className="w-full h-full">
+                      <CountryCard country={country} />
+                    </div>
                   </Link>
                 );
               })}
