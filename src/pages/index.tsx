@@ -10,10 +10,13 @@ import SearchInput from "@components/SearchInput";
 import { Country, regions } from "src/types";
 import { getCountriesByRegion, searchCountry } from "src/util/api";
 
+const MINIMUM_PAGINATION = 9;
+
 export default function Home() {
   const [countries, setCountries] = useState<Country[] | null>(null);
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState("");
+  const [pagination, setPagination] = useState(MINIMUM_PAGINATION);
 
   const { isLoading, data } = useQuery<Country[], Error>(
     ["searchCountry", query],
@@ -28,16 +31,19 @@ export default function Home() {
   useEffect(() => {
     if (!isLoadingRegion && countriesByRegion) {
       setCountries(countriesByRegion);
+      setPagination(MINIMUM_PAGINATION);
     }
   }, [countriesByRegion]);
 
   useEffect(() => {
     if (!isLoading && data) {
       setCountries(data);
+      setPagination(MINIMUM_PAGINATION);
     }
   }, [data]);
 
   const loading = isLoadingRegion || isLoading;
+  const listOfCountries = countries || data || [];
 
   return (
     <div>
@@ -63,7 +69,7 @@ export default function Home() {
         <div className="grid grid-cols-1 gap-5 mt-4 mb-8 lg:mt-12 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 auto-cols-min justify-items-center">
           {loading
             ? Array.from(Array(9).keys()).map((key) => <Skeleton key={key} />)
-            : (countries || data)?.map((country) => {
+            : listOfCountries?.slice(0, pagination).map((country) => {
                 return (
                   <Link
                     href={`/${encodeURIComponent(country.name.toLowerCase())}`}
@@ -75,6 +81,13 @@ export default function Home() {
                 );
               })}
         </div>
+        {pagination <= listOfCountries?.length ? (
+          <button
+            className="block px-4 py-2 mx-auto mb-10 text-white text-gray-800 bg-gray-800 rounded-md dark:bg-white"
+            onClick={() => setPagination((pagination) => pagination + 12)}>
+            Load More
+          </button>
+        ) : null}
       </div>
     </div>
   );

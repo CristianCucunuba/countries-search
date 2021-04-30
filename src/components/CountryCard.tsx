@@ -8,7 +8,7 @@ interface CountryCardProps {
 function CountryCard({ country }: CountryCardProps) {
   const { flag, name, population, region, capital } = country;
   return (
-    <div className="w-4/5 mt-4 overflow-hidden rounded-md shadow-md cursor-pointer sm:w-11/12">
+    <div className="w-4/5 mx-auto mt-4 overflow-hidden rounded-md shadow-md cursor-pointer sm:w-11/12">
       <div className="relative h-52">
         <Image src={flag} alt={`Flag of ${name}`} layout="fill" />
       </div>
