@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Head from "next/head";
 import { useState, useEffect } from "react";
 import { QueryClient, useQuery } from "react-query";
 import { dehydrate } from "react-query/hydration";
@@ -47,6 +48,13 @@ export default function Home() {
 
   return (
     <div>
+      <Head>
+        <title>Countries Search</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta
+          name="description"
+          content="View all countries and regions of the world with their most important facts"></meta>
+      </Head>
       <Header />
       <div className="container px-4 mx-auto mt-10 mb-4 md:px-0">
         <div className="flex flex-col justify-between lg:flex-row">
