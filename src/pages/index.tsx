@@ -26,7 +26,6 @@ export default function Home() {
   >(["region", region], () => getCountriesByRegion(region));
 
   useEffect(() => {
-    console.log({ countriesByRegion });
     if (!isLoadingRegion && countriesByRegion) {
       setCountries(countriesByRegion);
     }
