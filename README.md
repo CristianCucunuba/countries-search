@@ -1,8 +1,10 @@
 # Frontend Mentor - REST Countries API with color theme switcher
 
-Result: countries-search-henna.vercel.app
+## DEMO: https://countries-search-henna.vercel.app/
 
-![Design preview for the REST Countries API with color theme switcher coding challenge](./design/desktop-preview.jpg)
+## Result
+
+![image](https://user-images.githubusercontent.com/8785633/118916131-f8765380-b8f3-11eb-8bcd-f93536264e1c.png)
 
 ## Welcome! 👋
 
